@@ -1,3 +1,1 @@
-# MAKEFILE
-
-obj-y := memblockinfo.o
+obj-y := memblockinfo.o dentryinfo.o
