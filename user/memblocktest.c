@@ -1,9 +1,8 @@
-/*****************************************************
-*
-* MEMBLOCKTEST.C
-*
-*****************************************************/
-
+/******************************************
+ * 
+ *   MEMBLOCKTEST.H
+ * 
+********************************************/
 #include <stdbool.h>
 #include <linux/kernel.h>
 #include <linux/memblockinfo.h>
@@ -15,6 +14,9 @@
 
 #define __NR_memblockinfo 454
 
+#define CLR "\033[33;1m" // yellow
+#define ECLR "\033[0m" // end of color string
+
 long memblockinfo_syscall(struct memblockinfo* buffer, unsigned long len)
 {
     return syscall(__NR_memblockinfo, buffer, len);
@@ -22,10 +24,10 @@ long memblockinfo_syscall(struct memblockinfo* buffer, unsigned long len)
 
 static void print_memblockinfo_type(struct memblockinfo_type* memtype) {
     printf("\n");
-    printf("Name: %s\n", memtype->name);
-    printf("Number of regions: %ld\n", memtype->cnt);
-    printf("Size of the allocated array: %ld\n", memtype->max);
-    printf("Size of all regions: %llu\n", memtype->total_size);
+    printf(CLR"Name:"ECLR" %s\n", memtype->name);
+    printf(CLR"Number of regions:"ECLR" %ld\n", memtype->cnt);
+    printf(CLR"Size of the allocated array:"ECLR" %ld\n", memtype->max);
+    printf(CLR"Size of all regions:"ECLR" %llu\n", memtype->total_size);
 
 
     printf("base\t\tsize\t\tflag\n");
@@ -58,10 +60,10 @@ static void print_memblockinfo_type(struct memblockinfo_type* memtype) {
 } 
 
 void print_memblockinfo(struct memblockinfo* memblock) {
-    printf(">>> Struct MEMBLOCK information <<<\n\n");
+    printf("\n>>> Struct MEMBLOCK information <<<\n\n");
 
-    printf("Bottom Up: %s\n", memblock->bottom_up ? "TRUE" : "FALSE");
-    printf("Current limit: %llu\n", memblock->current_limit);
+    printf(CLR"Bottom Up:"ECLR" %s\n", memblock->bottom_up ? "TRUE" : "FALSE");
+    printf(CLR"Current limit:"ECLR" %llu\n", memblock->current_limit);
 
     print_memblockinfo_type(&memblock->memory);
     print_memblockinfo_type(&memblock->reserved);
